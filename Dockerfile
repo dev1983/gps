@@ -13,4 +13,4 @@ RUN set -ex && \
 
 ENTRYPOINT ["java", "-Xms512m", "-Xmx512m", "-Djava.net.preferIPv4Stack=true"]
 
-CMD ["-jar", "tracker-server.jar", "conf/traccar.xml"]
+CMD ["-jar", "tracker-server.jar", "https://github.com/dev1983/gps/blob/master/traccar.xml"]
