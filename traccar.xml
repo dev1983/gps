@@ -20,7 +20,7 @@
 
     <entry key='database.driver'>com.mysql.jdbc.Driver</entry>
     <entry key='database.url'>jdbc:mysql://traccar-mysql:3306/traccardb?useSSL=false&amp;allowMultiQueries=true&amp;autoReconnect=true&amp;useUnicode=yes&amp;characterEncoding=UTF-8&amp;sessionVariables=sql_mode=''</entry>
-    <entry key='database.user'>mysqluser</entry>
+    <entry key='database.user'>root</entry>
     <entry key='database.password'>welcome1</entry>
 
 </properties>
