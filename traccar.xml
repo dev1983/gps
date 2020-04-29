@@ -19,7 +19,7 @@
     "mysql" is default db we are using here
     -->
 
-    <entry key='database.driver'>com.mysql.jc.jdbc.Driver</entry>
+    <entry key='database.driver'>com.mysql.cj.jdbc.Driver</entry>
     <entry key='database.url'>jdbc:mysql://traccar-mysql:3306/mysql?useSSL=false&amp;allowMultiQueries=true&amp;autoReconnect=true&amp;useUnicode=yes&amp;characterEncoding=UTF-8&amp;sessionVariables=sql_mode=''</entry>
     <entry key='database.user'>root</entry>
     <entry key='database.password'>welcome1</entry>
