@@ -10,7 +10,9 @@ RUN set -ex && \
     unzip -qo /tmp/traccar.zip -d /opt/traccar && \
     rm /tmp/traccar.zip && \
     apk del wget
-ADD https://github.com/dev1983/gps/blob/master/traccar.xml /opt/traccar/conf/
+    
+ADD https://github.com/dev1983/gps/blob/master/traccar.xml conf/traccar.xml
+
 ENTRYPOINT ["java", "-Xms512m", "-Xmx512m", "-Djava.net.preferIPv4Stack=true"]
 
 CMD ["-jar", "tracker-server.jar", "conf/traccar.xml"]
