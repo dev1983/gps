@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: traccar
+  labels:
+    app: traccar
+spec:
+  ports:
+    - port: 8082
+  selector:
+    app: traccar
+    tier: frontend
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gps-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /pvgps
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gps-pv-claim
+  labels:
+    app: traccar
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: traccar
+  labels:
+    app: traccar
+spec:
+  selector:
+    matchLabels:
+      app: traccar
+      tier: frontend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: traccar
+        tier: frontend
+    spec:
+      replicas: 2
+      containers:
+      - image: traccar/traccar:latest
+        name: traccar
+        ports:
+        - containerPort: 8082
+          name: traccar
+        volumeMounts:
+        - name: traccar-persistent-storage
+          mountPath: /var/www/html
+      volumes:
+      - name: traccar-persistent-storage
+        persistentVolumeClaim:
+          claimName: gps-pv-claim
