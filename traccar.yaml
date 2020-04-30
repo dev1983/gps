@@ -45,6 +45,7 @@ metadata:
   labels:
     app: traccar
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: traccar
@@ -57,9 +58,8 @@ spec:
         app: traccar
         tier: frontend
     spec:
-      replicas: 2
       containers:
-      - image: traccar/traccar:latest
+      - image: dev1983/gps:mygps
         name: traccar
         ports:
         - containerPort: 8082
