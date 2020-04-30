@@ -66,6 +66,8 @@ spec:
             secretKeyRef:
               name: mysql-pass
               key: password
+        command: ["/bin/bash"]
+        args: ["-c", "mysql --user=root --paswword=$MYSQL_ROOT_PASSWORD < CREATE DATABASE traccardb;"]
         ports:
         - containerPort: 3306
           name: mysql
