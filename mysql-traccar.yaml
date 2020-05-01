@@ -58,7 +58,7 @@ spec:
         tier: mysql
     spec:
       containers:
-      - image: mysql:5.6
+      - image: dev1983/gps:traccar.mysql5.6
         name: traccar-mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
@@ -66,8 +66,6 @@ spec:
             secretKeyRef:
               name: mysql
               key: password
-        command: ["/bin/bash"]
-        args: ["-c", "while true; do  echo 'CREATE DATABASE traccardb;' > createdb.sql; mysql --user=root --password=$MYSQL_ROOT_PASSWORD < createdb.sql; /etc/init.d/mysql start; done"]
         ports:
         - containerPort: 3306
           name: mysql
