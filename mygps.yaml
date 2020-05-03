@@ -23,7 +23,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /mygps_app
+    path: /mygpsapp
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
