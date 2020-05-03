@@ -6,7 +6,14 @@ metadata:
     app: mygps
 spec:
   ports:
-    - port: 8082
+  - name: mgmt
+    port: 8082
+    protocol: TCP
+    targetPort: 8082
+  - name: app
+    port: 5055
+    protocol: TCP
+    targetPort: 5055
   selector:
     app: mygps
     tier: frontend
