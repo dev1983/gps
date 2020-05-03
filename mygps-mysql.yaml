@@ -67,7 +67,7 @@ spec:
               name: mysql
               key: password
         - name: MYSQL_DATABASE
-          value: mygpsdb
+          value: traccardb
         ports:
         - containerPort: 3306
           name: mysql
