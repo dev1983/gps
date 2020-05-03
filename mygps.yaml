@@ -10,10 +10,12 @@ spec:
     port: 8082
     protocol: TCP
     targetPort: 8082
+    nodePort: 30082
   - name: app
     port: 5055
     protocol: TCP
     targetPort: 5055
+    nodePort: 30055
   selector:
     app: mygps
     tier: frontend
