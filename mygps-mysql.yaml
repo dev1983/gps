@@ -23,7 +23,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /mysqldb_gps
+    path: /mygpsdb
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
