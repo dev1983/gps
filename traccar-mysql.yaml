@@ -1,29 +1,22 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: traccar
+  name: traccar-mysql
   namespace: gps
   labels:
     app: traccar
 spec:
   ports:
-  - name: http
-    port: 8082
-    targetPort: 8082
-    nodePort: 30082
-  - name: app
-    port: 5055
-    targetPort: 5055
-    nodePort: 30055
+    - port: 3306
   selector:
     app: traccar
-    tier: frontend
-  type: LoadBalancer
+    tier: mysql
+  clusterIP: None
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: gps-pv1
+  name: mysql-pv1
   namespace: gps
 spec:
   capacity:
@@ -32,12 +25,12 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /traccar/app
+    path: /traccar/appdb
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: gps-pv-claim1
+  name: mysql-pv-claim1
   namespace: gps
   labels:
     app: traccar
@@ -51,7 +44,7 @@ spec:
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: traccar
+  name: traccar-mysql
   namespace: gps
   labels:
     app: traccar
@@ -59,25 +52,33 @@ spec:
   selector:
     matchLabels:
       app: traccar
-      tier: frontend
+      tier: mysql
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: traccar
-        tier: frontend
+        tier: mysql
     spec:
       containers:
-      - image: dev1983/gps:mygps
-        name: traccar
+      - image: mysql:5.6
+        name: traccar-mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-app
+              key: password
+        - name: MYSQL_DATABASE
+          value: traccardb
         ports:
-        - containerPort: 8082
-          name: traccar
+        - containerPort: 3306
+          name: mysql
         volumeMounts:
-        - name: traccar-persistent-storage1
-          mountPath: /var/www/html
+        - name: mysql-persistent-storage1
+          mountPath: /var/lib/mysql
       volumes:
-      - name: traccar-persistent-storage1
+      - name: mysql-persistent-storage1
         persistentVolumeClaim:
-          claimName: gps-pv-claim1
+          claimName: mysql-pv-claim1
